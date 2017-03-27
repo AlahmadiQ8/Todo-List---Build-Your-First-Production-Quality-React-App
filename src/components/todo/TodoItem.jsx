@@ -3,15 +3,21 @@ import {partial} from '../../lib/utils'
 
 export const TodoItem = (props) => {
   const handleToggle = partial(props.handleToggle, props.id)
+  const handleRemove = partial(props.handleRemove, props.id)
   return (
-  <li>
-    <input type="checkbox" 
-           className="form-check-input"
-           onChange={handleToggle}
-           checked={props.isComplete}
-    />
-    {props.name}
-  </li>
+  <div className='clearfix item'>
+    <div className='float-left'>
+      <input type="checkbox" 
+             className="form-check-input"
+             onChange={handleToggle}
+             checked={props.isComplete}
+      />
+      {props.name}
+    </div>
+    <div className='float-right'>
+      <a onClick={handleRemove} href="#" className="btn btn-outline-danger btn-sm remove">remove</a>
+    </div>
+  </div>
 )}
 
 TodoItem.propTypes = {

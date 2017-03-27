@@ -22,3 +22,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.remove { 
+  display: none !important;
+}
+
+div.item:hover  a.remove {
+  display: block !important;
+}

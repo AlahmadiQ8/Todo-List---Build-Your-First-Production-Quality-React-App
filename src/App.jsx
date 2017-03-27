@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {addTodo, generateId, findById, toggleTodo, updateTodo} from './lib/todoHelpers.jsx';
-
-
-import { TodoForm, TodoList } from './components/todo';
+import {addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo, filterTodos} from './lib/todoHelpers.jsx';
+import { TodoForm, TodoList, Footer } from './components/todo';
+import {pipe, partial} from './lib/utils';
 
 class App extends Component {
 
@@ -17,10 +16,19 @@ class App extends Component {
     currentTodo: ''
   }
 
+  static contextTypes = {
+    route: React.PropTypes.string
+  }
+
+  handleRemove = (id, evt) => {
+    evt.preventDefault()
+    const updatedTodos = removeTodo(this.state.todos, id)
+    this.setState({todos: updatedTodos})
+  }
+
   handleToggle = (id) => {
-    const todo = findById(id, this.state.todos);
-    const toggled = toggleTodo(todo);
-    const updatedTodos = updateTodo(this.state.todos, toggled);
+    const getUpdatedTodos = pipe(findById, toggleTodo, partial(updateTodo, this.state.todos))
+    const updatedTodos = getUpdatedTodos(id, this.state.todos)
     this.setState({todos: updatedTodos});
   }
 
@@ -51,6 +59,7 @@ class App extends Component {
 
   render() {
     const submitHandler = this.state.currentTodo.trim() ? this.handleSubmit : this.handleEmptySubmit
+    const displayTodos = filterTodos(this.state.todos, this.context.route)
     return (
       <div className="App">
         <div className="App-header">
@@ -59,15 +68,18 @@ class App extends Component {
         </div>
         
         <div className="row justify-content-center">
-          <div className="col-sm-4 text-left">
+          <div className="col-sm-5 text-left">
             {this.state.errorMessage && <div className="alert alert-danger">{this.state.errorMessage}</div>}
             <TodoForm currentTodo={this.state.currentTodo} 
                       handleInputChange={this.handleInputChange} 
                       handleSubmit={submitHandler}
                       />
             <TodoList 
-              todos={this.state.todos}
-              handleToggle={this.handleToggle}/>
+              todos={displayTodos}
+              handleToggle={this.handleToggle}
+              handleRemove={this.handleRemove}
+              />
+          <Footer/>
           </div>
         </div>
 
