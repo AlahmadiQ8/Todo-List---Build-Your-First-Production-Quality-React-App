@@ -13,3 +13,8 @@ body {
 .form-check-input {
   margin-right: .25rem;
 }
+.alert-absolute {
+  position: absolute;
+  width: 100%;
+  top: -75px;
+}

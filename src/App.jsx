@@ -53,8 +53,8 @@ class App extends Component {
     e.preventDefault();
     console.log('testing');
     const newTodo = {
-      name: this.state.currentTodo, 
-      isComplete: false, 
+      name: this.state.currentTodo,
+      isComplete: false,
       id: generateId()
     }
     const updatedTodos = addTodo(this.state.todos, newTodo);
@@ -81,16 +81,16 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>React Todo</h2>
         </div>
-        
+
         <div className="row justify-content-center">
           <div className="col-sm-5 text-left">
-            {this.state.errorMessage && <div className="alert alert-danger">{this.state.errorMessage}</div>}
-            {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
-            <TodoForm currentTodo={this.state.currentTodo} 
-                      handleInputChange={this.handleInputChange} 
+            {this.state.errorMessage && <div className="alert alert-absolute alert-danger">{this.state.errorMessage}</div>}
+            {this.state.message && <div className="alert alert-absolute alert-success">{this.state.message}</div>}
+            <TodoForm currentTodo={this.state.currentTodo}
+                      handleInputChange={this.handleInputChange}
                       handleSubmit={submitHandler}
                       />
-            <TodoList 
+            <TodoList
               todos={displayTodos}
               handleToggle={this.handleToggle}
               handleRemove={this.handleRemove}
