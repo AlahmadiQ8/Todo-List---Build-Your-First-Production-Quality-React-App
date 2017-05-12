@@ -19,6 +19,15 @@ const removeTodo = (list, id) => {
   ]
 }
 
+const updateTodo = (list, todo) => {
+  const updatedIndex = list.findIndex(item => item.id === todo.id)
+  return [
+    ...list.slice(0, updatedIndex),
+    todo,
+    ...list.slice(updatedIndex+1)
+  ]
+}
+
 export const todos = (state = [], action) => {
   switch(action.type) {
     case 'ADD_TODO':
@@ -27,6 +36,8 @@ export const todos = (state = [], action) => {
       return state.map(t => toggleTodo(t, action.id));
     case 'REMOVE_TODO':
       return removeTodo(state, action.id);
+    case 'UPDATE_TODO':
+      return updateTodo(state, action.todo);
     default:
       return state;
   }
