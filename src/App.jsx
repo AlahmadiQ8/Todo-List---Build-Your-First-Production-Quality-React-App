@@ -1,80 +1,35 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import logo from './logo.svg';
 import './App.css';
-import {addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo, filterTodos} from './lib/todoHelpers.jsx';
-import { TodoForm, TodoList, Footer } from './components/todo';
-import {pipe, partial} from './lib/utils';
+import { TodoFormContainer, TodoListContainer, Footer } from './components/todo';
 import {loadTodos, createTodo, saveTodo, destroyTodo} from './lib/todoService';
 
 class App extends Component {
-
-  state = {
-    todos: [],
-    currentTodo: ''
-  }
 
   static contextTypes = {
     route: React.PropTypes.string
   }
 
-  componentDidMount() {
-    loadTodos()
-      .then(todos => this.setState({todos}))
-  }
+          // loadTodos()
+          //   .then(todos => this.setState({todos}))
 
-  handleRemove = (id, evt) => {
-    evt.preventDefault()
-    const updatedTodos = removeTodo(this.state.todos, id)
-    this.setState({todos: updatedTodos})
-    destroyTodo(id)
-      .then(() => this.showTempMethod('Todo Removed'))
-  }
+          // destroyTodo(id)
+          //   .then(() => this.showTempMethod('Todo Removed'))
 
-  handleToggle = (id) => {
-    const getToggledTodo = pipe(findById, toggleTodo)
-    const updated = getToggledTodo(id, this.state.todos)
-    const getUpdatedTodos = partial(updateTodo, this.state.todos)
-    const updatedTodos = getUpdatedTodos(updated)
-    this.setState({todos: updatedTodos});
-    saveTodo(updated)
-      .then(() => this.showTempMethod('todo updated'))
-  }
+          // saveTodo(updated)
+          //   .then(() => this.showTempMethod('todo updated'))
 
-  handleInputChange = e => this.setState({currentTodo: e.target.value})
+          // createTodo(newTodo)
+          //   .then(() => this.showTempMethod('Todo added'))
 
-  handleEmptySubmit = (e) => {
-    e.preventDefault();
-    this.setState({
-      errorMessage: 'Please supply a todo name'
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('testing');
-    const newTodo = {
-      name: this.state.currentTodo,
-      isComplete: false,
-      id: generateId()
-    }
-    const updatedTodos = addTodo(this.state.todos, newTodo);
-    this.setState({
-      todos: updatedTodos,
-      currentTodo: '',
-      errorMessage: ''
-    });
-    createTodo(newTodo)
-      .then(() => this.showTempMethod('Todo added'))
-  }
-
-  showTempMethod = (msg) => {
-    this.setState({message: msg})
-    setTimeout(() => this.setState({message: ''}), 2500)
-  }
+          // showTempMethod = (msg) => {
+          //   this.setState({message: msg})
+          //   setTimeout(() => this.setState({message: ''}), 2500)
+          // }
 
   render() {
-    const submitHandler = this.state.currentTodo.trim() ? this.handleSubmit : this.handleEmptySubmit
-    const displayTodos = filterTodos(this.state.todos, this.context.route)
     return (
       <div className="App">
         <div className="App-header">
@@ -84,17 +39,11 @@ class App extends Component {
 
         <div className="row justify-content-center">
           <div className="col-sm-5 text-left">
-            {this.state.errorMessage && <div className="alert alert-absolute alert-danger">{this.state.errorMessage}</div>}
-            {this.state.message && <div className="alert alert-absolute alert-success">{this.state.message}</div>}
-            <TodoForm currentTodo={this.state.currentTodo}
-                      handleInputChange={this.handleInputChange}
-                      handleSubmit={submitHandler}
-                      />
-            <TodoList
-              todos={displayTodos}
-              handleToggle={this.handleToggle}
-              handleRemove={this.handleRemove}
-              />
+            {this.props.errorMessage && <div className="alert alert-absolute alert-danger">{this.props.errorMessage}</div>}
+            {//this.state.message && <div className="alert alert-absolute alert-success">{this.state.message}</div>
+              }
+            <TodoFormContainer/>
+            <TodoListContainer route={this.context.route}/>
           <Footer/>
           </div>
         </div>
@@ -104,5 +53,9 @@ class App extends Component {
     );
   }
 }
+
+App = connect(
+  state => ({errorMessage: state.errorMessage })
+  , null)(App);
 
 export default App;

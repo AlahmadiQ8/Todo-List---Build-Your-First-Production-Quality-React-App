@@ -28,6 +28,9 @@ const updateTodo = (list, todo) => {
   ]
 }
 
+/**
+ * todo state
+**/
 export const todos = (state = [], action) => {
   switch(action.type) {
     case 'ADD_TODO':
@@ -43,19 +46,26 @@ export const todos = (state = [], action) => {
   }
 }
 
-export const currentTodo = (state = '', action) => {
+/**
+ * visibilityFilter
+**/
+export const visibilityFilter =(state = '', action) => {
   switch(action.type) {
-    case 'UPDATE_CURRENT':
-      return action.message;
+    case 'UPDATE_VISIBILITY':
+      return action.filter;
     default:
       return state;
   }
 }
 
+
+/**
+ * error message state
+**/
 export const errorMessage =(state = '', action) => {
   switch(action.type) {
     case 'UPDATE_ERROR':
-      return action.message;
+      return action.msg;
     default:
       return state;
   }
@@ -63,6 +73,6 @@ export const errorMessage =(state = '', action) => {
 
 export default combineReducers({
   todos,
-  currentTodo,
+  visibilityFilter,
   errorMessage
 })

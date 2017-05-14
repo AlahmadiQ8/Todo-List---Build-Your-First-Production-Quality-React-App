@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-export class Link extends Component {
+import { updateVisibilityFilter } from '../../actions';
+
+class Link extends Component {
 
   static contextTypes = {
     route: React.PropTypes.string,
@@ -11,11 +14,12 @@ export class Link extends Component {
   handleClick = (e) => {
     e.preventDefault()
     this.context.linkHandler(this.props.to)
+    this.props.dispatch(updateVisibilityFilter(this.props.filter));
   }
 
   render() {
-    const classes = classNames('btn', 'btn-secondary', 
-      {'active': this.context.route === this.props.to})
+    const classes = classNames('btn', 'btn-secondary',
+      {'active': this.props.visibilityFilter === this.props.filter})
     return (
       <a className={classes} href='#' onClick={this.handleClick}>{this.props.children}</a>
     );
@@ -23,6 +27,14 @@ export class Link extends Component {
 
 }
 
+Link = connect(
+  state => ({visibilityFilter: state.visibilityFilter}),
+  null,
+  )(Link);
+
 Link.propTypes = {
   to: React.PropTypes.string.isRequired,
+  filter: React.PropTypes.string.isRequired,
 }
+
+export { Link };

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import { TodoItem } from './TodoItem.jsx';
 
-export const TodoList = (props) => (
+export const TodoList = ({ todos, handleToggle, handleRemove }) => (
   <div className="Todo-List">
-      {props.todos.map(todo =>
+      {todos.map(todo =>
         <TodoItem
           key={todo.id}
-          handleToggle={props.handleToggle}
-          handleRemove={props.handleRemove}
+          handleToggle={e => handleToggle(todo.id)}
+          handleRemove={e => handleRemove(todo.id)}
           {...todo}/>
       )}
   </div>

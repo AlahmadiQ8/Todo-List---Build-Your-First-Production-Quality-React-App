@@ -4,9 +4,9 @@ import {Link} from '../router'
 export const Footer = () => (
   <div className="row justify-content-center">
     <div className='btn-group'>
-      <Link to='/'>All</Link>
-      <Link to='/active'>Active</Link>
-      <Link to='/complete'>Complete</Link>
+      <Link filter='' to='/'>All</Link>
+      <Link filter='ACTIVE' to='/active'>Active</Link>
+      <Link filter='COMPLETE' to='/complete'>Complete</Link>
     </div>
   </div>
 )
