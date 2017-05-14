@@ -29,25 +29,33 @@ const updateTodo = (list, todo) => {
 }
 
 /**
- * todo state
+ * todos state
 **/
-export const todos = (state = [], action) => {
+export const todos = (state = {isFetching: false, items: []}, action) => {
   switch(action.type) {
     case 'ADD_TODO':
-      return [...state, action.todo];
+      return { ...state, items: [...state.items, action.todo] };
     case 'TOGGLE_TODO':
-      return state.map(t => toggleTodo(t, action.id));
+      return { ...state, items: state.items.map(t => toggleTodo(t, action.id)) };
     case 'REMOVE_TODO':
-      return removeTodo(state, action.id);
+      return { ...state, items: removeTodo(state.items, action.id) };
     case 'UPDATE_TODO':
-      return updateTodo(state, action.todo);
+      return { ...state, items: updateTodo(state.items, action.todo) };
+    case 'RECEIVE_TODOS':
+    case 'SET_TODOS':
+      return {
+        isFetching: false,
+        items: action.todos,
+      };
+    case 'REQUEST_TODOS':
+      return { ...state, isFetching: true };
     default:
       return state;
   }
 }
 
 /**
- * visibilityFilter
+ * visibilityFilter state
 **/
 export const visibilityFilter =(state = '', action) => {
   switch(action.type) {
@@ -60,7 +68,7 @@ export const visibilityFilter =(state = '', action) => {
 
 
 /**
- * error message state
+ * errorMessage state
 **/
 export const errorMessage =(state = '', action) => {
   switch(action.type) {
