@@ -1,5 +1,5 @@
 import React from 'react';
-import {partial} from '../../lib/utils'
+// import {partial} from '../../lib/utils'
 
 export const TodoItem = ({ handleToggle, handleRemove, ...todo }) => {
   return (

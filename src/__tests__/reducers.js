@@ -1,6 +1,5 @@
-import { expect } from 'chai';
+import deepFreeze from 'deep-freeze';
 import { todos } from '../reducers';
-import { deepFreeze } from '../lib/utils';
 
 describe('todos', () => {
 
@@ -15,7 +14,7 @@ describe('todos', () => {
     deepFreeze(todosList);
     const action = {type: 'ADD_TODO', todo}
     const result = todos(todosList, action);
-    expect(result).to.be.deep.equal(todosAfter);
+    expect(result).toEqual(todosAfter);
   });
 
   it('toggles todo item', () => {
@@ -58,7 +57,7 @@ describe('todos', () => {
     deepFreeze(todosList);
     const action = {type: 'TOGGLE_TODO', id: 1}
     const result = todos(todosList, action);
-    expect(result).to.be.deep.equal(todosAfter);
+    expect(result).toEqual(todosAfter);
   });
 
   it('remove todo item', () => {
@@ -96,7 +95,7 @@ describe('todos', () => {
     deepFreeze(todosList);
     const action = {type: 'REMOVE_TODO', id: 1}
     const result = todos(todosList, action);
-    expect(result).to.be.deep.equal(todosAfter);
+    expect(result).toEqual(todosAfter);
   })
 
   it('updates todo item', () => {
@@ -139,7 +138,7 @@ describe('todos', () => {
     deepFreeze(todosList);
     const action = {type: 'UPDATE_TODO', todo: { name: 'updated', isComplete: true, id: 1 } }
     const result = todos(todosList, action);
-    expect(result).to.be.deep.equal(todosAfter);
+    expect(result).toEqual(todosAfter);
   });
 
 
@@ -164,7 +163,7 @@ describe('todos', () => {
     const todosAfter = { isFetching: false, items: itemsAfter }
     const action = {type: 'SET_TODOS', todos: itemsAfter }
     const result = todos(undefined, action);
-    expect(result).to.be.deep.equal(todosAfter); 
+    expect(result).toEqual(todosAfter); 
   });
 
 })

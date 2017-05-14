@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import { TodoList } from './TodoList.jsx';
-import { removeTodo, toggleTodo, updateVisibilityFilter, loadTodos, updateErrorMessage } from '../../actions';
+import { removeTodo, toggleTodo, loadTodos, saveTodo, destroyTodo } from '../../actions';
 
 class TodoListContainer extends Component {
 
@@ -30,8 +30,14 @@ const mapStateToTodoListProps = (state, ownProps) => {
 const mapDispatchToTodoListProps = (dispatch, ownProps) => (
   {
     fetchTodos: () => dispatch(loadTodos()),
-    handleToggle: (id) => dispatch(toggleTodo(id)),
-    handleRemove: (id) => dispatch(removeTodo(id)),
+    handleToggle: (id) => {
+      dispatch(toggleTodo(id));
+      dispatch(saveTodo(id));
+    },
+    handleRemove: (id) => {
+      dispatch(removeTodo(id))
+      dispatch(destroyTodo(id))
+    }
   }
 )
 

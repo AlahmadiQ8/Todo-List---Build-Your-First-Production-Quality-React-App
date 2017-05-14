@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 
 import { addTodo, updateErrorMessage, createTodo } from '../../actions';
@@ -11,7 +11,10 @@ let TodoFormContainer = ({ dispatch }) => {
     dispatch(updateErrorMessage(''));
     const todoText = input.value;
     if (todoText) {
-      dispatch(addTodo(todoText))
+      const action = addTodo(todoText);
+      const todo = action.todo;
+      dispatch(action);
+      dispatch(createTodo(todo));
     } else {
       dispatch(updateErrorMessage('Input cannot be empty'));
     }

@@ -43,3 +43,27 @@ export const createTodo = (todo) => dispatch => {
   }).then(res => res.json)
   .catch(err => dispatch(updateErrorMessage(err.message)));
 }
+
+export const saveTodo = (id) => (dispatch, ownState) => {
+  const todo = ownState().todos.items.find(item => item.id === id);
+  return fetch(`${baseUrl}/${todo.id}`, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(todo)
+  }).then(res => res.json)
+  .catch(err => dispatch(updateErrorMessage(err.message)));
+}
+
+export const destroyTodo = id => dispatch => {
+  return fetch(`${baseUrl}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json)
+  .catch(err => dispatch(updateErrorMessage(err.message)));
+}
