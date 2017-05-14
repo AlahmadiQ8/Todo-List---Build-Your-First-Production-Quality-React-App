@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export const TodoForm = (props) => (
-  <form onSubmit={props.handleSubmit}>
-    <input type="text" 
-           value={props.currentTodo}
-           onChange={props.handleInputChange}
-           className="form-control" 
-           id="exampleInputEmail1" />
+const TodoForm = ({ handleSubmit }) => {
+
+  let input = null;
+
+  return (
+  <form onSubmit={e => handleSubmit({e, input})}>
+    <input type="text"
+           ref={node => input = node}
+           className="form-control"
+            />
   </form>
-);
+  );
+};
 
 TodoForm.propTypes = {
-  currentTodo: React.PropTypes.string.isRequired,
-  handleInputChange: React.PropTypes.func.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
 }
+
+export { TodoForm };

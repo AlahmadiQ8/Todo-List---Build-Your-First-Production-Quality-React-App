@@ -1,27 +1,32 @@
 import React from 'react';
-import {partial} from '../../lib/utils'
+// import {partial} from '../../lib/utils'
 
-export const TodoItem = (props) => {
-  const handleToggle = partial(props.handleToggle, props.id)
-  const handleRemove = partial(props.handleRemove, props.id)
+export const TodoItem = ({ handleToggle, handleRemove, ...todo }) => {
   return (
   <div className='clearfix item'>
     <div className='float-left'>
-      <input type="checkbox" 
+      <input type="checkbox"
              className="form-check-input"
              onChange={handleToggle}
-             checked={props.isComplete}
+             checked={todo.isComplete}
       />
-      {props.name}
+      {todo.name}
     </div>
     <div className='float-right'>
-      <a onClick={handleRemove} href="#" className="btn btn-outline-danger btn-sm remove">remove</a>
+      <a
+        onClick={handleRemove}
+        href="#"
+        className="btn btn-outline-danger btn-sm remove">
+        remove
+      </a>
     </div>
   </div>
 )}
 
 TodoItem.propTypes = {
-  name: React.PropTypes.string.isRequired, 
+  handleToggle: React.PropTypes.func.isRequired,
+  handleRemove: React.PropTypes.func.isRequired,
+  name: React.PropTypes.string.isRequired,
   isComplete: React.PropTypes.bool,
   id: React.PropTypes.number.isRequired
 }
